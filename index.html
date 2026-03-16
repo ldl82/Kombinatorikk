@@ -358,7 +358,27 @@
   </div>
 
 <script>
-const answers = {1: '362880', 2: '720', 3: '720', 4: '3024', 5: '456976', 6: '100000', 7: '220', 8: '142506', 9: '210', 10: '5/33', 11: '1/28', 12: '676000', 13: '15504', 14: '31824', 15: '1404000', 16: '20', 17: '252'};
+const answers = {
+  1: '362880',
+  2: '720',
+  3: '720',
+  4: '3024',
+  5: '456976',
+  6: '100000',
+  7: '220',
+  8: '142506',
+  9: '210',
+  10: '5/33',
+  11: '1/28',
+  12: '676000',
+  13: '15504',
+  14: '31824',
+  15: '1404000',
+  16: '20',
+  17: '252'
+};
+
+const STORAGE_PREFIX = 'kombinatorik_svar_';
 
 function gcd(a, b) {
   a = Math.abs(a);
@@ -409,14 +429,77 @@ function equalAnswers(userInput, correctAnswer) {
   return normalizeNumericString(userInput) === normalizeNumericString(correctAnswer);
 }
 
-function checkAnswer(num) {
-  const input = document.getElementById(`answer-${num}`).value;
-  const result = document.getElementById(`result-${num}`);
-  const ok = equalAnswers(input, String(answers[num]));
+function saveAnswer(num, value) {
+  localStorage.setItem(STORAGE_PREFIX + num, value);
+}
 
+function loadSavedAnswers() {
+  for (let i = 1; i <= 17; i++) {
+    const saved = localStorage.getItem(STORAGE_PREFIX + i);
+    if (saved !== null) {
+      const input = document.getElementById(`answer-${i}`);
+      if (input) {
+        input.value = saved;
+      }
+    }
+  }
+}
+
+function restoreCheckedResults() {
+  for (let i = 1; i <= 17; i++) {
+    const input = document.getElementById(`answer-${i}`);
+    const result = document.getElementById(`result-${i}`);
+    if (!input || !result) continue;
+
+    const value = input.value.trim();
+    if (value === '') continue;
+
+    const ok = equalAnswers(value, String(answers[i]));
+    result.textContent = ok ? 'Korrekt' : 'Ikke korrekt';
+    result.className = 'result ' + (ok ? 'correct' : 'incorrect');
+  }
+}
+
+function checkAnswer(num) {
+  const inputElement = document.getElementById(`answer-${num}`);
+  const result = document.getElementById(`result-${num}`);
+  const input = inputElement.value.trim();
+
+  saveAnswer(num, input);
+
+  if (input === '') {
+    result.textContent = '';
+    result.className = 'result';
+    return;
+  }
+
+  const ok = equalAnswers(input, String(answers[num]));
   result.textContent = ok ? 'Korrekt' : 'Ikke korrekt';
   result.className = 'result ' + (ok ? 'correct' : 'incorrect');
 }
+
+function attachAutoSave() {
+  for (let i = 1; i <= 17; i++) {
+    const input = document.getElementById(`answer-${i}`);
+    if (!input) continue;
+
+    input.addEventListener('input', function() {
+      saveAnswer(i, input.value);
+    });
+
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        checkAnswer(i);
+      }
+    });
+  }
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  loadSavedAnswers();
+  restoreCheckedResults();
+  attachAutoSave();
+});
 </script>
 </body>
 </html>
