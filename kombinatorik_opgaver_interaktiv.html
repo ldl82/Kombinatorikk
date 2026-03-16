@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kombinatorik – interaktive opgaver</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background: #f4f6f8;
+    color: #1f2937;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 18px 60px;
+  }
+  h1 {
+    margin-bottom: 10px;
+  }
+  .intro {
+    background: white;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin-bottom: 24px;
+  }
+  table.formler {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin-top: 14px;
+    font-size: 1.05rem;
+  }
+  table.formler th, table.formler td {
+    border: 2px solid #444;
+    text-align: center;
+    padding: 18px 10px;
+    vertical-align: middle;
+  }
+  table.formler th {
+    background: #e9e9e9;
+    font-size: 1.15rem;
+  }
+  .frac {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.2;
+    min-width: 110px;
+  }
+  .frac .top {
+    display: block;
+    padding: 0 8px 4px;
+  }
+  .frac .bar {
+    display: block;
+    border-top: 2px solid #111;
+    margin: 0 2px;
+  }
+  .frac .bottom {
+    display: block;
+    padding: 4px 8px 0;
+  }
+  .math {
+    font-style: italic;
+    font-size: 1.5rem;
+  }
+  .cards {
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px 18px 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .label {
+    display: inline-block;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  .row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    align-items: center;
+  }
+  input[type="text"] {
+    flex: 1 1 220px;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 0.98rem;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #1d4ed8;
+  }
+  .result {
+    font-weight: bold;
+    padding: 8px 10px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+  .correct {
+    background: #dcfce7;
+    color: #166534;
+  }
+  .incorrect {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  .footer {
+    margin-top: 28px;
+    color: #475569;
+    font-size: 0.95rem;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kombinatorik – interaktive opgaver</h1>
+
+    <div class="intro">
+      <p>Her kan eleverne skrive deres svar og trykke <b>“Tjek resultat”</b>. Siden viser derefter <b>“Korrekt”</b> eller <b>“Ikke korrekt”</b>.</p>
+      <p>Ved sandsynlighedsopgaver kan man skrive svar som brøk, fx <b>5/33</b> eller <b>1/28</b>. Ved heltalsopgaver skrives bare tallet.</p>
+
+      <table class="formler">
+        <tr>
+          <th>Kombinatorik</th>
+          <th>Uden tilbagelægning</th>
+          <th>Med tilbagelægning</th>
+        </tr>
+        <tr>
+          <td>Ordnet</td>
+          <td>
+            <span class="frac math">
+              <span class="top">n!</span>
+              <span class="bar"></span>
+              <span class="bottom">(n − r)!</span>
+            </span>
+          </td>
+          <td><span class="math">n<sup>r</sup></span></td>
+        </tr>
+        <tr>
+          <td>Uordnet</td>
+          <td>
+            <span class="frac math">
+              <span class="top">n!</span>
+              <span class="bar"></span>
+              <span class="bottom">(n − r)! · r!</span>
+            </span>
+          </td>
+          <td>
+            <span class="frac math">
+              <span class="top">(n − 1 + r)!</span>
+              <span class="bar"></span>
+              <span class="bottom">(n − 1)! · r!</span>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="label">Opgave 1 – Permutation</div>
+        <div>På hvor mange måder kan bogstaverne i ordet <b>MATEMATIK</b> arrangeres, hvis alle bogstaver betragtes som forskellige?</div>
+        <div class="row">
+          <input type="text" id="answer-1" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(1)">Tjek resultat</button>
+          <span id="result-1"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 2 – Permutation</div>
+        <div>Hvor mange forskellige måder kan 6 elever stille sig på række?</div>
+        <div class="row">
+          <input type="text" id="answer-2" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(2)">Tjek resultat</button>
+          <span id="result-2"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 3 – Ordnet uden tilbagelægning</div>
+        <div>Fra 10 elever skal der vælges en formand, en næstformand og en kasserer. Hvor mange forskellige måder kan posterne fordeles på?</div>
+        <div class="row">
+          <input type="text" id="answer-3" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(3)">Tjek resultat</button>
+          <span id="result-3"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 4 – Ordnet uden tilbagelægning</div>
+        <div>Hvor mange forskellige 4-cifrede tal kan dannes ud fra cifrene 1–9, hvis hvert ciffer kun må bruges én gang?</div>
+        <div class="row">
+          <input type="text" id="answer-4" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(4)">Tjek resultat</button>
+          <span id="result-4"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 5 – Ordnet med tilbagelægning</div>
+        <div>Et password består af 4 bogstaver. Der er 26 bogstaver, og de må gerne gentages. Hvor mange forskellige passwords findes der?</div>
+        <div class="row">
+          <input type="text" id="answer-5" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(5)">Tjek resultat</button>
+          <span id="result-5"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 6 – Ordnet med tilbagelægning</div>
+        <div>En kode består af 5 tal (0–9). Hvor mange forskellige koder kan laves?</div>
+        <div class="row">
+          <input type="text" id="answer-6" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(6)">Tjek resultat</button>
+          <span id="result-6"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 7 – Uordnet uden tilbagelægning</div>
+        <div>Et udvalg på 3 elever skal vælges fra en klasse med 12 elever. Hvor mange forskellige udvalg kan dannes?</div>
+        <div class="row">
+          <input type="text" id="answer-7" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(7)">Tjek resultat</button>
+          <span id="result-7"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 8 – Uordnet uden tilbagelægning</div>
+        <div>I et lotteri skal der vælges 5 vindertal blandt 30 tal. Hvor mange forskellige kombinationer findes der?</div>
+        <div class="row">
+          <input type="text" id="answer-8" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(8)">Tjek resultat</button>
+          <span id="result-8"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 9 – Uordnet uden tilbagelægning</div>
+        <div>En gruppe på 4 personer skal vælges blandt 10 personer. Hvor mange forskellige grupper kan dannes?</div>
+        <div class="row">
+          <input type="text" id="answer-9" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(9)">Tjek resultat</button>
+          <span id="result-9"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 10 – Sandsynlighed</div>
+        <div>I en pose er der 5 røde og 7 blå kugler. Der trækkes 2 kugler uden tilbagelægning. Hvad er sandsynligheden for, at begge kugler er røde?</div>
+        <div class="row">
+          <input type="text" id="answer-10" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(10)">Tjek resultat</button>
+          <span id="result-10"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 11 – Sandsynlighed</div>
+        <div>Et udvalg på 2 personer vælges tilfældigt blandt 8 personer. Hvad er sandsynligheden for, at to bestemte personer begge kommer med?</div>
+        <div class="row">
+          <input type="text" id="answer-11" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(11)">Tjek resultat</button>
+          <span id="result-11"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 12 – Kombineret opgave</div>
+        <div>Et password består af 2 bogstaver efterfulgt af 3 tal. Hvor mange forskellige passwords findes der, hvis tegnene må gentages?</div>
+        <div class="row">
+          <input type="text" id="answer-12" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(12)">Tjek resultat</button>
+          <span id="result-12"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 13 – Udfordring</div>
+        <div>På hvor mange måder kan 5 elever vælges fra en klasse med 20 elever?</div>
+        <div class="row">
+          <input type="text" id="answer-13" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(13)">Tjek resultat</button>
+          <span id="result-13"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 14 – Udfordring</div>
+        <div>Et fodboldhold skal vælge 11 spillere blandt 18 spillere. Hvor mange forskellige hold kan dannes?</div>
+        <div class="row">
+          <input type="text" id="answer-14" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(14)">Tjek resultat</button>
+          <span id="result-14"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 15 – Stor udfordring</div>
+        <div>Et password består af 3 forskellige bogstaver efterfulgt af 2 forskellige tal. Bogstaver må ikke gentages, og tal må ikke gentages. Hvor mange forskellige passwords findes der?</div>
+        <div class="row">
+          <input type="text" id="answer-15" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(15)">Tjek resultat</button>
+          <span id="result-15"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 16 – Uordnet med tilbagelægning</div>
+        <div>En isbod har 4 smage. Man vælger 3 kugler, og man må gerne vælge samme smag flere gange. Rækkefølgen er ligegyldig. Hvor mange muligheder findes der?</div>
+        <div class="row">
+          <input type="text" id="answer-16" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(16)">Tjek resultat</button>
+          <span id="result-16"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="label">Opgave 17 – Uordnet med tilbagelægning</div>
+        <div>En blomsterbutik laver en buket med 5 blomster valgt blandt 6 blomsterarter. Man må gerne vælge flere af samme art, og rækkefølgen er ligegyldig. Hvor mange forskellige buketter findes der?</div>
+        <div class="row">
+          <input type="text" id="answer-17" placeholder="Skriv dit svar her" />
+          <button onclick="checkAnswer(17)">Tjek resultat</button>
+          <span id="result-17"></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      Tip: Opgave 10 og 11 er sandsynligheder. Her kan eleverne skrive svar som brøker.
+    </div>
+  </div>
+
+<script>
+const answers = {1: '362880', 2: '720', 3: '720', 4: '3024', 5: '456976', 6: '100000', 7: '220', 8: '142506', 9: '210', 10: '5/33', 11: '1/28', 12: '676000', 13: '15504', 14: '31824', 15: '1404000', 16: '20', 17: '252'};
+
+function gcd(a, b) {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (b) {
+    [a, b] = [b, a % b];
+  }
+  return a || 1;
+}
+
+function normalizeNumericString(s) {
+  return s.replace(/\s+/g, '').replace(',', '.');
+}
+
+function parseFractionOrDecimal(input) {
+  const s = normalizeNumericString(input);
+  if (!s) return null;
+
+  if (s.includes('/')) {
+    const parts = s.split('/');
+    if (parts.length !== 2) return null;
+    const num = Number(parts[0]);
+    const den = Number(parts[1]);
+    if (!Number.isFinite(num) || !Number.isFinite(den) || den === 0) return null;
+    const sign = den < 0 ? -1 : 1;
+    let n = sign * num;
+    let d = Math.abs(den);
+    if (Number.isInteger(n) && Number.isInteger(d)) {
+      const g = gcd(n, d);
+      return { type: 'fraction', num: n / g, den: d / g, value: n / d };
+    }
+    return { type: 'decimal', value: n / d };
+  }
+
+  const val = Number(s);
+  if (!Number.isFinite(val)) return null;
+  return { type: 'decimal', value: val };
+}
+
+function equalAnswers(userInput, correctAnswer) {
+  const user = parseFractionOrDecimal(userInput);
+  const correct = parseFractionOrDecimal(correctAnswer);
+
+  if (user && correct) {
+    return Math.abs(user.value - correct.value) < 1e-10;
+  }
+
+  return normalizeNumericString(userInput) === normalizeNumericString(correctAnswer);
+}
+
+function checkAnswer(num) {
+  const input = document.getElementById(`answer-${num}`).value;
+  const result = document.getElementById(`result-${num}`);
+  const ok = equalAnswers(input, String(answers[num]));
+
+  result.textContent = ok ? 'Korrekt' : 'Ikke korrekt';
+  result.className = 'result ' + (ok ? 'correct' : 'incorrect');
+}
+</script>
+</body>
+</html>
